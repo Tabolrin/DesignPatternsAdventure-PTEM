@@ -500,7 +500,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: scoreL 4354444
+  m_text: 'Score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b350dd3547cebb4680fea2a06c1cd2b, type: 2}
   m_sharedMaterial: {fileID: -6865166914819144477, guid: 5b350dd3547cebb4680fea2a06c1cd2b, type: 2}
@@ -750,6 +750,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 520822229344900518, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 520822229344900518, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 882109677176468807, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 882109677176468807, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
+      propertyPath: m_LightVolumeEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 882109677176468807, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
+      propertyPath: m_LightVolumeIntensity
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3561714670956671728, guid: 9daa5b1839f6eee47ad83142addc5cc2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
