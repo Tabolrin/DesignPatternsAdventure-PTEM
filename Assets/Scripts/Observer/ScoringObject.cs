@@ -17,6 +17,6 @@ public class ScoringObject : MonoBehaviour
     public void Collect()
     {
         ScoreManager.AddScore(scoreWorth);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
