@@ -3,22 +3,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private GameManager insatance;
+    public GameManager instance;
     
     private void Awake()
     {
+        //Singleton pattern
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         
+        instance = this;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    
 }
