@@ -13,6 +13,11 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         MoveToPlayer();
+
+        if (transform.position.y < GameManager.Instance.PlayerPosition.position.y)
+            transform.position = new Vector3(transform.position.x, transform.position.y, -1);
+        else
+            transform.position = new Vector3(transform.position.x, transform.position.y, 1);
     }
     
     private void MoveToPlayer()

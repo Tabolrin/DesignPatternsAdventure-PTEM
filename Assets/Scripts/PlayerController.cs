@@ -102,6 +102,8 @@ public class PlayerController : MonoBehaviour
             else
             {
                 IsAlive = false;
+                animator.SetBool("IsAlive", false);
+                spriteRenderer.color = new Color(0.3867925f, 0.3867925f, 0.3867925f, 1f);
                 rb.linearVelocity = Vector2.zero;
                 StartCoroutine(DeathDelay());
             }
