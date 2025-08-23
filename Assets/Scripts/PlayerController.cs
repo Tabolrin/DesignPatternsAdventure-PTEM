@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
         else if (rb.linearVelocity.x < 0)
             spriteRenderer.flipX = true;
 
-        ClampToMap();
         animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
     }
     
@@ -50,20 +49,6 @@ public class PlayerController : MonoBehaviour
         
         if(Input.GetKey(KeyCode.D))
             rb.linearVelocity += Vector2.right * currentSpeed;
-    }
-    
-    
-    private void ClampToMap()
-    {
-        if (!mapBounds) return;
-
-        Bounds b = mapBounds.bounds;
-        Vector3 pos = transform.position;
-
-        pos.x = Mathf.Clamp(pos.x, b.min.x, b.max.x);
-        pos.y = Mathf.Clamp(pos.y, b.min.y, b.max.y);
-
-        transform.position = pos;
     }
     
     
