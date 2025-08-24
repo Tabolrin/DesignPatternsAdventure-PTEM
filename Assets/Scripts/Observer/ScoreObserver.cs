@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class ScoreObserver : MonoBehaviour
+public class ScoreObserver : MonoBehaviour, IObserver
 {
     [SerializeField] TextMeshProUGUI uiText;
     [SerializeField] string textFormat;
@@ -9,11 +9,15 @@ public class ScoreObserver : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ScoreManager.ScoreChange += OnScoreChange;
-        OnScoreChange(ScoreManager.GetScore());
+        ScoreManager.Instance.AddObserver(this);
+        UpdateScore(ScoreManager.Instance.GetScore());
+    }
+    void OnDestroy()
+    {
+        ScoreManager.Instance.RemoveObserver(this);
     }
 
-    private void OnScoreChange(int score)
+    public void UpdateScore(int score)
     {
         uiText.text = textFormat + score.ToString("N0"); //N0: adds ',' after every 3 digits, 123456789 becomes 123,456,789.
     }

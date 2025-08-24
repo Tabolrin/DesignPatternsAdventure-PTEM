@@ -1,56 +1,68 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
-public static class ScoreManager
+public class ScoreManager : MonoBehaviour, ISubject
 {
+    public static ScoreManager Instance { get; private set; }
     private const int SCORE_INIT_VALUE = 0;
     private static int score;
-
-    public static UnityAction<int> ScoreChange;
     
-    private static float pointsPerSecond = 5f; 
-    private static float timer;
+    //public static UnityAction<int> ScoreChange;
 
+    List<IObserver> observers = new List<IObserver>();
+
+    void Awake()
+    {
+        if (Instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
     
-    public static int GetScore()
+
+    #region Observer Pattern
+    public void AddObserver(IObserver observer)
+    {
+        observers.Add(observer);
+    }
+    public void RemoveObserver(IObserver observer)
+    {
+        observers.Remove(observer);
+    }
+    public void NotifyObservers()
+    {
+        foreach (IObserver observer in observers)
+        {
+            observer.UpdateScore(score);
+        }
+    }
+    #endregion
+    #region Score things
+    public int GetScore()
     {
         return score;
     }
-
-    
-    public static void ResetScore()
+    public void ResetScore()
     {
         score = SCORE_INIT_VALUE;
-        timer = 0f;
-        ScoreChange?.Invoke(score);
+        NotifyObservers();
     }
-
-    
-    public static void AddScore(int value)
+    public void AddScore(int value)
     {
         score += value;
-        ScoreChange?.Invoke(score);
+        NotifyObservers();
     }
-
-    
-    public static void SubtractScore(int value)
+    public void SubtractScore(int value)
     {
         score -= value;
         if (score < SCORE_INIT_VALUE)
             ResetScore();
-        else
-            ScoreChange?.Invoke(score);
+
+        NotifyObservers();
     }
-    
-    
-    public static void Tick(float deltaTime)
-    {
-        timer += deltaTime * pointsPerSecond;
-        if (timer >= 1f)
-        {
-            int wholePoints = Mathf.FloorToInt(timer);
-            timer -= wholePoints;
-            AddScore(wholePoints);
-        }
-    }
+    #endregion
 }

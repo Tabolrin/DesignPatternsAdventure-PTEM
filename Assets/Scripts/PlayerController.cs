@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPickupVisitor
 {
     [Header("Components")]
     [SerializeField] private Rigidbody2D rb;
@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float buffedSpeed = 15f;
     [SerializeField] private float baseSpeed = 5f;
     [SerializeField] private float currentSpeed = 5f;
-    
+
+    private const string ENEMY_TAG = "Enemy";
+
     public bool IsAlive { get; private set; } = true;
     
     private void Update()
@@ -29,8 +31,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
     }
-    
-    
+
     private void GetInput()
     {
         if (!IsAlive) 
@@ -50,34 +51,27 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKey(KeyCode.D))
             rb.linearVelocity += Vector2.right * currentSpeed;
     }
-    
-    
     public void ActivateSpeedBuff()
     {
         currentSpeed = buffedSpeed;
         StartCoroutine(SpeedBuffTimer());
         animator.speed *= 2;
     }
-    
-    
     private IEnumerator SpeedBuffTimer()
     {
         yield return new WaitForSeconds(speedBuffDuration);
         currentSpeed = baseSpeed;
         animator.speed /= 2;
     }
-    
-    
     private IEnumerator DeathDelay()
     {
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("EndScene");
     }
 
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag(ENEMY_TAG))
         {
             if (GameManager.Instance.EnemiesKillableStatus)
             {
@@ -94,5 +88,25 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(DeathDelay());
             }
         }
+    }
+
+    public void Visit(SpeedPotion speedPot)
+    {
+        ActivateSpeedBuff();
+    }
+
+    public void Visit(ScoringObject scoreObj)
+    {
+        ScoreManager.Instance.AddScore(scoreObj.scoreWorth);
+    }
+
+    public void Visit(KillerPotion killerPot)
+    {
+        GameManager.Instance.EnemiesKillableStatus = true;
+    }
+
+    public void Visit(FreezePotion freezePot)
+    {
+        GameManager.Instance.EnemiesFreezeStatus = true;
     }
 }

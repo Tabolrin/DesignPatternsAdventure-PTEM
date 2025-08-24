@@ -130,4 +130,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e274242ef34b540bb9adb2f075acca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreWorth: 50
+  <scoreWorth>k__BackingField: 50
